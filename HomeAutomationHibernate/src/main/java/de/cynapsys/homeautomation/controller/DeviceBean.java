@@ -7,6 +7,7 @@ package de.cynapsys.homeautomation.controller;
 
 import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.entity.Device;
+import de.cynapsys.homeautomation.entity.DeviceType;
 import de.cynapsys.homeautomation.entity.Room;
 import de.cynapsys.homeautomation.service.CategoryService;
 import de.cynapsys.homeautomation.service.DeviceService;
@@ -34,7 +35,7 @@ public class DeviceBean {
     Room room;
     Category category;
     
-    
+    List<String> typesList;
     List<Room> roomList;
     List<Category> catgeoryList;
     
@@ -51,6 +52,7 @@ public class DeviceBean {
         deviceForUpdate = new Device();
         roomList= roomService.getAllRooms();
         catgeoryList=categoryService.getAllCategories();
+        typesList=DeviceType.getAllTypes();
     }
     
     public void addDevice(){
@@ -127,6 +129,15 @@ public class DeviceBean {
     public void setCatgeoryList(List<Category> catgeoryList) {
         this.catgeoryList = catgeoryList;
     }
+
+    public List<String> getTypesList() {
+        return typesList;
+    }
+
+    public void setTypesList(List<String> typesList) {
+        this.typesList = typesList;
+    }
+    
     
     
     

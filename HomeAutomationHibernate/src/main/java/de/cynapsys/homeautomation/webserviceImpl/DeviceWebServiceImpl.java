@@ -5,11 +5,18 @@
  */
 package de.cynapsys.homeautomation.webserviceImpl;
 
+import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.entity.Device;
+import de.cynapsys.homeautomation.entity.Room;
+import de.cynapsys.homeautomation.service.CategoryService;
 import de.cynapsys.homeautomation.service.DeviceService;
+import de.cynapsys.homeautomation.service.RoomService;
+import de.cynapsys.homeautomation.serviceImpl.CategoryServiceImpl;
 import de.cynapsys.homeautomation.serviceImpl.DeviceServiceImpl;
+import de.cynapsys.homeautomation.serviceImpl.RoomServiceImpl;
 import de.cynapsys.homeautomation.webservice.DeviceWebService;
 import java.util.ArrayList;
+import java.util.List;
 import javax.jws.WebService;
 /**
  *
@@ -24,6 +31,8 @@ public class DeviceWebServiceImpl implements DeviceWebService{
 //        
 //        
     DeviceService deviceService = new DeviceServiceImpl();
+    RoomService roomService = new RoomServiceImpl();
+    CategoryService categoryService = new CategoryServiceImpl();
 //        
 //        
 //    public DeviceWebServiceImpl() {
@@ -34,13 +43,25 @@ public class DeviceWebServiceImpl implements DeviceWebService{
 //    }
 
     @Override
-    public ArrayList<Device> getAllDevices() {
-        return (ArrayList)deviceService.getAllDevices();
+    public Device[] getAllDevices() {
+        Device[] list = {};
+        List<Device> l= deviceService.getAllDevices();
+        list = new Device[l.size()];
+        for (int i=0;i<l.size();i++){
+            Device d = l.get(i);
+            d.setCategory(null);
+            d.setRoom(null);
+            list[i]=d;
+        }
+        return list;
     }
 
     @Override
     public Device getDeviceByID(Long deviceID) {
-        return (Device) deviceService.getDeviceById(deviceID);
+        Device d = (Device) deviceService.getDeviceById(deviceID);
+        d.setCategory(null);
+        d.setRoom(null);
+        return d;
     }
 
     @Override
@@ -79,6 +100,36 @@ public class DeviceWebServiceImpl implements DeviceWebService{
 
          return   deviceService.updateDevice(device);
 
+    }
+
+    @Override
+    public Device[] getDevicesByRoom(Long roomID) {
+        Device[] list = {};
+        Room r = roomService.getRoomById(roomID);
+        List<Device> l= deviceService.getDevicesByRoom(r);
+        list = new Device[l.size()];
+        for (int i=0;i<l.size();i++){
+            Device d = l.get(i);
+            d.setCategory(null);
+            d.setRoom(null);
+            list[i]=d;
+        }
+        return list;
+    }
+
+    @Override
+    public Device[] getDevicesByCategory(Long categoryID) {
+        Device[] list = {};
+        Category c = categoryService.getCategoryById(categoryID);
+        List<Device> l= deviceService.getDevicesByCategory(c);
+        list = new Device[l.size()];
+        for (int i=0;i<l.size();i++){
+            Device d = l.get(i);
+            d.setCategory(null);
+            d.setRoom(null);
+            list[i]=d;
+        }
+        return list;
     }
     
 }

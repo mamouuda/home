@@ -82,6 +82,12 @@
                                 </p:spinner>
                                 <p:message for="currentvalue" display="icon" />
 
+                                <p:outputLabel for="devicetype" value="type : " />
+                                <p:selectOneMenu id="devicetype"  value="#{deviceBean.device.type}" style="width:150px" required="true" converter="typeConverter">
+                                    <f:selectItem itemLabel="Select type" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems var ="t" value="#{deviceBean.typesList}"/>
+                                </p:selectOneMenu>
+                                <p:message for="room" display="icon" />
 
                                 <p:outputLabel for="room" value="Room : " />
                                 <p:selectOneMenu id="room"  value="#{deviceBean.device.room}" style="width:150px" required="true" converter="roomConverter">
@@ -126,6 +132,10 @@
                                 
                                 <p:column headerText="Description" id="deviceDescription" filterBy="#{device.description}" filterMatchMode="contains" sortBy="#{device.description}" >
                                     <h:outputText value="#{device.description}" />
+                                </p:column>
+                                
+                                <p:column headerText="Type" id="typeDevice" filterBy="#{device.type}" filterMatchMode="contains" >
+                                    <h:outputText value="#{device.type}" />
                                 </p:column>
                                 
                                 <p:column headerText="Current Value" id="deviceCurrentValue" >
@@ -173,6 +183,12 @@
                                 <h:outputLabel for="current" value="urrent Value: " />
                                 <p:spinner id="current" value="#{deviceBean.deviceForUpdate.currentValue}" min="0" max="100" />
 
+                                <p:outputLabel for="devicetypeup" value="type : " />
+                                <p:selectOneMenu id="devicetypeup"  value="#{deviceBean.deviceForUpdate.type}" required="true">
+                                    <f:selectItem itemLabel="Select type" itemValue="" noSelectionOption="true" />
+                                    <f:selectItems var ="t" value="#{deviceBean.typesList}"/>
+                                </p:selectOneMenu>
+                                
                                 <p:outputLabel for="room" value="Room : " />
                                 <p:selectOneMenu id="room"  value="#{deviceBean.deviceForUpdate.room}" style="width:150px" required="true" converter="roomConverter">
                                     <f:selectItem itemLabel="Select room" itemValue="" noSelectionOption="true" />

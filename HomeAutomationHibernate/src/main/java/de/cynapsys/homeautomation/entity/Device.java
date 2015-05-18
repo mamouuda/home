@@ -32,6 +32,7 @@ public class Device implements Serializable {
     String name;
     String description;
     int currentValue;
+    String Type;
     Room room;
     Category category;
     
@@ -55,6 +56,16 @@ public class Device implements Serializable {
         this.currentValue = currentValue;
     }
 
+    public Device(String name, String description, int currentValue, String Type, Room room, Category category) {
+        this.name = name;
+        this.description = description;
+        this.currentValue = currentValue;
+        this.Type = Type;
+        this.room = room;
+        this.category = category;
+    }
+
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @XmlElement
@@ -95,6 +106,18 @@ public class Device implements Serializable {
     public void setCurrentValue(int currentValue) {
         this.currentValue = currentValue;
     }
+
+    @XmlElement
+    @Column(name = "`type`", nullable = true, length = 50)
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String Type) {
+        this.Type = Type;
+    }
+    
+    
 
     @XmlElement
     @ManyToOne(fetch = FetchType.EAGER)

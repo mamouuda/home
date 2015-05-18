@@ -21,7 +21,7 @@ import javax.jws.soap.SOAPBinding;
 public interface DeviceWebService {
     
     @WebMethod
-    ArrayList<Device> getAllDevices();
+    Device[] getAllDevices();
     
     @WebMethod 
     Device getDeviceByID(@WebParam(name = "deviceID") Long deviceID);
@@ -40,5 +40,11 @@ public interface DeviceWebService {
     
     @WebMethod
     boolean updateDevice(@WebParam(name = "device")Device device);
+    
+    @WebMethod 
+    Device[] getDevicesByRoom(@WebParam(name = "RoomID") Long roomID);
+    
+    @WebMethod 
+    Device[] getDevicesByCategory(@WebParam(name = "CategoryID") Long categoryID);
     
 }
