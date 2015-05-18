@@ -61,17 +61,19 @@ public class CategoryTest {
     @Test
     public void testCategory(){
         
+        DeviceService deviceService = new DeviceServiceImpl();
+        System.out.println(deviceService.getAllDevices());
         
-        try {
-            Socket socket = new Socket();
-            String ip = IPUtil.getExternalIPAddress();
-            socket.connect(new InetSocketAddress(InetAddress.getByName(ip), 1200), 200);
-            System.out.println("OK");
-            socket.close();
-            
-        } catch (Exception ex) {
-            System.out.println("KO");
-        }
+//        try {
+//            Socket socket = new Socket();
+//            String ip = IPUtil.getExternalIPAddress();
+//            socket.connect(new InetSocketAddress(InetAddress.getByName(ip), 1200), 200);
+//            System.out.println("OK");
+//            socket.close();
+//            
+//        } catch (Exception ex) {
+//            System.out.println("KO");
+//        }
 //        UpnpService upnpService = new UpnpServiceImpl();
 //        try {
 //            System.out.println("find : "+ upnpService.getUpnpByPort(12) ) ;

@@ -22,7 +22,7 @@ import javax.jws.soap.SOAPBinding;
 public interface CategoryWebService {
 
     @WebMethod
-    ArrayList<Category> getAllCategories();
+    Category[] getAllCategories();
 
     @WebMethod
     Category getCategoryByID(@WebParam(name = "CategoryID") Long CategoryID);

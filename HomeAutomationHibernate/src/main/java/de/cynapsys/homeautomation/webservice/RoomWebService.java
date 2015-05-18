@@ -23,7 +23,7 @@ public interface RoomWebService {
     
     
     @WebMethod
-    ArrayList<Room> getAllRooms();
+    Room[] getAllRooms();
     
     @WebMethod
     Room getRoomById(@WebParam(name = "roomID") Long roomID);

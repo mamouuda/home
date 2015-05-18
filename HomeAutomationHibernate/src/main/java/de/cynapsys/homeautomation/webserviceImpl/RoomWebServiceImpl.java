@@ -5,12 +5,14 @@
  */
 package de.cynapsys.homeautomation.webserviceImpl;
 
+import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.entity.Device;
 import de.cynapsys.homeautomation.entity.Room;
 import de.cynapsys.homeautomation.service.RoomService;
 import de.cynapsys.homeautomation.serviceImpl.RoomServiceImpl;
 import de.cynapsys.homeautomation.webservice.RoomWebService;
 import java.util.ArrayList;
+import java.util.List;
 import javax.jws.WebService;
 
 /**
@@ -36,7 +38,10 @@ public class RoomWebServiceImpl implements RoomWebService{
     
     @Override
     public Room getRoomById(Long roomID) {
-        return roomService.getRoomById(roomID);
+        
+        Room r = roomService.getRoomById(roomID);
+        r.setDevices(null);
+        return r;
     }
 
     @Override
@@ -88,8 +93,16 @@ public class RoomWebServiceImpl implements RoomWebService{
     }
 
     @Override
-    public ArrayList<Room> getAllRooms() {
-        return (ArrayList) roomService.getAllRooms();
+    public Room[] getAllRooms() {
+        Room[] list = {};
+        List<Room> l= roomService.getAllRooms();
+        list = new Room[l.size()];
+        for (int i=0;i<l.size();i++){
+            Room r = l.get(i);
+            r.setDevices(null);
+            list[i]=r;
+        }
+        return list;
     }
     
 }
