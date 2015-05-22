@@ -33,6 +33,7 @@ public class DeviceWebServiceImpl implements DeviceWebService{
     DeviceService deviceService = new DeviceServiceImpl();
     RoomService roomService = new RoomServiceImpl();
     CategoryService categoryService = new CategoryServiceImpl();
+    
 //        
 //        
 //    public DeviceWebServiceImpl() {
@@ -73,7 +74,7 @@ public class DeviceWebServiceImpl implements DeviceWebService{
     @Override
     public boolean setValue(Long deviceID, int value) {
         try{
-            Device device = getDeviceByID(deviceID);
+            Device device = deviceService.getDeviceById(deviceID);
             device.setCurrentValue(value);
             deviceService.updateDevice(device);
             return true;

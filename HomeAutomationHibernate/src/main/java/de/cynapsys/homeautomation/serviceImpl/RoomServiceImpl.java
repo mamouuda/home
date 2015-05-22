@@ -5,14 +5,13 @@
  */
 package de.cynapsys.homeautomation.serviceImpl;
 
-import de.cynapsys.homeautomation.entity.Device;
 import de.cynapsys.homeautomation.entity.Room;
 import de.cynapsys.homeautomation.service.RoomService;
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import utils.HibernateUtil;
 
 /**
@@ -23,6 +22,7 @@ import utils.HibernateUtil;
 public class RoomServiceImpl implements RoomService{
 
     static transient Session session;
+    final static Logger logger = Logger.getLogger(RoomServiceImpl.class);
     
     @Override
     public Long addRoom(Room r) {
@@ -31,6 +31,7 @@ public class RoomServiceImpl implements RoomService{
         Long id=(Long)session.save(r);
         session.getTransaction().commit();
         session.close();
+        logger.info("Add new room : ID : "+r.getId()+" Room name"+r.getName());
         return id;
    }
 
@@ -43,6 +44,7 @@ public class RoomServiceImpl implements RoomService{
         
         Room rr= (Room)query.uniqueResult();
         session.close();
+        logger.info("get room by ID called : ID : "+id);
         return rr;
     }
 
@@ -53,6 +55,7 @@ public class RoomServiceImpl implements RoomService{
         List<Room> lr = session.createCriteria(Room.class).list();
         session.getTransaction().commit();
         session.close();
+        logger.info("get all rooms called : ");
         return lr;
     }
 
@@ -64,8 +67,10 @@ public class RoomServiceImpl implements RoomService{
             session.delete(new Room(id, null, null));
             session.getTransaction().commit();
             session.close();
+            logger.info("delete room called : ID : " + id);
             return true;
         } catch (HibernateException hibernateException) {
+            logger.error("fail delete room called : " + hibernateException);
             return false;
         }
     }
@@ -78,8 +83,10 @@ public class RoomServiceImpl implements RoomService{
             session.merge(r);
             session.getTransaction().commit();
             session.close();
+            logger.info("update room called : ID : "+r.getId()+" Room name"+r.getName());
             return true;
         } catch (HibernateException hibernateException) {
+            logger.error("fail room category called : " + hibernateException);
             return false;
         }
     }  

@@ -7,17 +7,14 @@ package de.cynapsys.homeautomation.serviceImpl;
 
 import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.entity.Device;
-import de.cynapsys.homeautomation.entity.Device;
 import de.cynapsys.homeautomation.entity.Room;
 import de.cynapsys.homeautomation.service.CategoryService;
 import de.cynapsys.homeautomation.service.DeviceService;
 import java.util.List;
-import java.util.List;
-import javax.transaction.Transactional;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import utils.HibernateUtil;
 /**
  *
@@ -27,6 +24,7 @@ import utils.HibernateUtil;
 public class DeviceServiceImpl implements DeviceService{
 
     static transient Session session;
+    final static Logger logger = Logger.getLogger(DeviceServiceImpl.class);
 
     @Override
     public Long addDevice(Device d) {
@@ -35,6 +33,7 @@ public class DeviceServiceImpl implements DeviceService{
         Long id=(Long)session.save(d);
         session.getTransaction().commit();
         session.close();
+        logger.info("Add new device : ID : "+d.getId()+" device name"+d.getName());
         return id;
     }
 
@@ -47,6 +46,7 @@ public class DeviceServiceImpl implements DeviceService{
         
         Device dd= (Device)query.uniqueResult();
         session.close();
+        logger.info("get device by ID called : ID : "+id);
         return dd;
     }
 
@@ -57,6 +57,7 @@ public class DeviceServiceImpl implements DeviceService{
         List<Device> lc=session.createCriteria(Device.class).list();
         session.getTransaction().commit();
         session.close();
+        logger.info("get all devices called : ");
         return lc;
     }
 
@@ -69,8 +70,10 @@ public class DeviceServiceImpl implements DeviceService{
             session.delete(new Device(id, null, null, 0));
             session.getTransaction().commit();
             session.close();
+            logger.info("delete device called : ID : " + id);
             return true;
         } catch (HibernateException hibernateException) {
+            logger.error("fail delete device called : " + hibernateException);
             return false;
         }
     }
@@ -84,8 +87,10 @@ public class DeviceServiceImpl implements DeviceService{
             session.merge(d);
             session.getTransaction().commit();
             session.close();
+            logger.info("update device called : ID : "+d.getId()+" device name"+d.getName());
             return true;
         } catch (HibernateException hibernateException) {
+            logger.error("fail delete device called : " + hibernateException);
             return false;
         }
     }
@@ -97,6 +102,7 @@ public class DeviceServiceImpl implements DeviceService{
         List<Device> lc= session.createCriteria(Device.class).list();
         session.getTransaction().commit();
         session.close();
+        logger.info("update device by room called : ID room : "+r.getId()+" Room name: "+r.getName());
         return lc;
     }
 
@@ -104,8 +110,8 @@ public class DeviceServiceImpl implements DeviceService{
     public List<Device> getDevicesByCategory(Category c) {
         CategoryService cs = new CategoryServiceImpl();
         Category cc=cs.getCategoryById(c.getId());
+        logger.info("update device by category called : ID category : "+c.getId()+" category name: "+c.getName());
         return cc.getDevices();
-        
     }
     
 }

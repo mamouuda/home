@@ -7,12 +7,10 @@ package de.cynapsys.homeautomation.serviceImpl;
 
 import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.service.CategoryService;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -23,9 +21,10 @@ import utils.HibernateUtil;
  * @author mouadh
  */
 //public class CategoryServiceImpl extends CRUDServiceImpl<Category, Long>{
-public class CategoryServiceImpl implements CategoryService {
+public class CategoryServiceImpl implements Serializable, CategoryService  {
 
     static transient Session session;
+    final static Logger logger = Logger.getLogger(CategoryServiceImpl.class);
 
     public CategoryServiceImpl() {
     }
@@ -39,6 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
         session.getTransaction().commit();
         session.close();
         System.out.println(a);
+        logger.info("Add new category : ID : "+c.getId()+" category name"+c.getName());
         return a;
     }
 
@@ -54,6 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category cc = (Category) query.uniqueResult();
 
         session.close();
+        logger.info("get gategory by ID called : ID : "+id);
         return cc;
     }
 
@@ -64,6 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> lc = session.createCriteria(Category.class).list();
         
         session.close();
+        logger.info("get all categories called : ");
         return removeDuplicates(lc);
     }
 
@@ -90,9 +92,11 @@ public class CategoryServiceImpl implements CategoryService {
             session.delete(new Category(id, null, null));
             session.getTransaction().commit();
             session.close();
+            logger.info("delete category called : ID : " + id);
             return true;
         } catch (HibernateException hibernateException) {
             hibernateException.printStackTrace();
+            logger.error("fail delete category called : " + hibernateException);
             return false;
         }
 
@@ -107,8 +111,10 @@ public class CategoryServiceImpl implements CategoryService {
             session.merge(c);
             session.getTransaction().commit();
             session.close();
+            logger.info("update category called : ID : "+c.getId()+" category name"+c.getName());
             return true;
         } catch (HibernateException hibernateException) {
+            logger.error("fail delete category called : " + hibernateException);
             return false;
         }
     }
