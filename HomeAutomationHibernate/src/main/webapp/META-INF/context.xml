@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/HomeAutomationHibernate"/>
+<Context antiJARLocking="true" path="/HomeAutomationHibernate">
+    <Realm className="org.apache.catalina.realm.JAASRealm" 
+    appName="BytesLoungeLogin"
+    userClassNames="de.cynapsys.homeautomation.jaas.UserPrincipal"
+    roleClassNames="de.cynapsys.homeautomation.jaas.RolePrincipal" />
+</Context>

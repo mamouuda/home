@@ -5,8 +5,10 @@
  */
 package de.cynapsys.homeautomation.serviceImpl;
 
+import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.entity.Room;
 import de.cynapsys.homeautomation.service.RoomService;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -56,7 +58,17 @@ public class RoomServiceImpl implements RoomService{
         session.getTransaction().commit();
         session.close();
         logger.info("get all rooms called : ");
-        return lr;
+        return removeDuplicates(lr);
+    }
+    
+    private List<Room> removeDuplicates(List<Room> list) {
+        List<Room> res = new ArrayList<>();
+         for (Room r : list){
+             if ( !res.contains(r)){
+                 res.add(r);
+             }
+         }
+         return res;
     }
 
     @Override

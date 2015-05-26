@@ -8,7 +8,6 @@ package de.cynapsys.homeautomation.controller;
 import de.cynapsys.homeautomation.entity.Category;
 import de.cynapsys.homeautomation.service.CategoryService;
 import de.cynapsys.homeautomation.serviceImpl.CategoryServiceImpl;
-import java.awt.event.ActionEvent;
 import java.io.Serializable;
 import java.util.List;
 import java.util.List;
