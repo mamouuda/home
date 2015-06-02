@@ -10,6 +10,7 @@ import de.cynapsys.homeautomation.entity.Device;
 import de.cynapsys.homeautomation.entity.Room;
 import de.cynapsys.homeautomation.service.CategoryService;
 import de.cynapsys.homeautomation.service.DeviceService;
+import de.cynapsys.homeautomation.service.RoomService;
 import java.util.List;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -97,20 +98,17 @@ public class DeviceServiceImpl implements DeviceService{
 
     @Override
     public List<Device> getDevicesByRoom(Room r) {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        List<Device> lc= session.createCriteria(Device.class).list();
-        session.getTransaction().commit();
-        session.close();
-        logger.info("update device by room called : ID room : "+r.getId()+" Room name: "+r.getName());
-        return lc;
+        RoomService rs = new RoomServiceImpl();
+        Room rr=rs.getRoomById(r.getId());
+        logger.info("Get device by room called : ID room : "+r.getId()+" Room name: "+r.getName());
+        return rr.getDevices();
     }
 
     @Override
     public List<Device> getDevicesByCategory(Category c) {
         CategoryService cs = new CategoryServiceImpl();
         Category cc=cs.getCategoryById(c.getId());
-        logger.info("update device by category called : ID category : "+c.getId()+" category name: "+c.getName());
+        logger.info("get device by category called : ID category : "+c.getId()+" category name: "+c.getName());
         return cc.getDevices();
     }
     
