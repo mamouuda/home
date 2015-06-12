@@ -10,6 +10,7 @@ import de.cynapsys.homeautomation.entity.network.DdnsEntity;
 import de.cynapsys.homeautomation.entity.network.UpnpEntity;
 import de.cynapsys.homeautomation.service.network.DDNSService;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import utils.HibernateUtil;
 
@@ -41,18 +42,23 @@ public class DDNSServiceImpl implements DDNSService {
 
     @Override
     public DdnsEntity getConfiguration() {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        List<DdnsEntity> ld = session.createCriteria(DdnsEntity.class).list();
-
-        session.close();
-        return ld.get(0);
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
+            List<DdnsEntity> ld = session.createCriteria(DdnsEntity.class).list();
+            
+            session.close();
+            return ld.get(0);
+        } catch (Exception hibernateException) {
+            return null;
+        }
     }
 
     @Override
     public void submitHostname(DdnsEntity d) {
 //        NoIP n = new NoIP("anisjribi@gmail.com", "annous1992");
 //        n.submitHostname("beity.ddns.net");
+        System.out.println("test NOIP");
         NoIP n = new NoIP(d.getAccount(), d.getPassword());
         n.submitHostname(d.getHostname());
     }

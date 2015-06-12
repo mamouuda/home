@@ -58,9 +58,9 @@ public class BytesLoungeLoginModule implements LoginModule {
       // For this tutorial we are just checking if 
       // user is "user123" and password is "pass123"
       if (name != null &&
-          name.equals("user123") &&
+          name.equals("admin") &&
           password != null &&
-          password.equals("pass123")) {
+          password.equals("admin")) {
 
         // We store the username and roles
         // fetched from the credentials provider

@@ -10,8 +10,12 @@ import de.cynapsys.homeautomation.service.RoomService;
 import de.cynapsys.homeautomation.serviceImpl.RoomServiceImpl;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -41,22 +45,42 @@ public class RoomBean {
     }
 
     public void addRoom() {
-        System.out.println("test add room");
-        roomService.addRoom(room);
-        roomList = roomService.getAllRooms();
+        try {
+            System.out.println("test add room");
+            roomService.addRoom(room);
+            roomList = roomService.getAllRooms();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Chambre ajoutée avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans l'ajout"+e.toString()));
+        }
     }
 
     public void deleteRoom(Room r) {
-        System.out.println(" i am a function delete room");
-        System.out.println(r);
-        roomService.deleteRoom(r.getId());
-        roomList = roomService.getAllRooms();
-
+        try {
+            System.out.println(" i am a function delete room");
+            System.out.println(r);
+            roomService.deleteRoom(r.getId());
+            roomList = roomService.getAllRooms();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Chambre supprimée avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans la suppression"+e));
+        }
     }
 
     public void updateRoom() {
         System.out.println("i am update room" +roomForUpdate);
-        roomService.updateRoom(roomForUpdate);
+        try {
+            roomService.updateRoom(roomForUpdate);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Chambre modifiée avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans la modification"+e));
+        }
     }
 
     public List<Room> getRoomList() {

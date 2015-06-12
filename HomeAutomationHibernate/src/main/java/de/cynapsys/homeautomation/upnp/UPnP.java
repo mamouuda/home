@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.teleal.cling.DefaultUpnpServiceConfiguration;
 import org.teleal.cling.UpnpService;
 import org.teleal.cling.UpnpServiceImpl;
 import org.teleal.cling.model.meta.Action;
@@ -18,6 +19,13 @@ import org.teleal.cling.registry.Registry;
 import org.teleal.cling.registry.RegistryListener;
 import org.teleal.cling.support.igd.PortMappingListener;
 import org.teleal.cling.support.model.PortMapping;
+import org.teleal.cling.transport.impl.StreamClientConfigurationImpl;
+import org.teleal.cling.transport.impl.StreamClientImpl;
+import org.teleal.cling.transport.impl.StreamServerConfigurationImpl;
+import org.teleal.cling.transport.impl.StreamServerImpl;
+import org.teleal.cling.transport.spi.NetworkAddressFactory;
+import org.teleal.cling.transport.spi.StreamClient;
+import org.teleal.cling.transport.spi.StreamServer;
 
 /**
  * Handles UPnP calls needed for the server to automatically open a port on a
@@ -36,20 +44,21 @@ public class UPnP {
      */
     public static void RegisterPort(int port) {
         if (upnpService != null) {
-            System.out.println("Warning: UPnP service already started, will shutdown and restart.");
             UnregisterPort();
         }
 
         String ipAddr = IPUtil.getInternalIPAddress();
         if (ipAddr != null) {
             // Port Mapping
+            try{
             PortMapping desiredMapping = new PortMapping(port, ipAddr, PortMapping.Protocol.TCP, "Home Automation Port Mapping");
-            upnpService = new UpnpServiceImpl(new PortMappingListener(desiredMapping));//, CreateListenerToPrintUPnPDeviceData());
+            upnpService = new UpnpServiceImpl(new PortMappingListener(desiredMapping));
+
             System.out.println(upnpService.getRouter());
             upnpService.getControlPoint().search();
+            }
+            catch(Exception e){e.printStackTrace();}
         } else {
-            System.out.println("Error getting internal IP address.");
-            System.out.println("Unable to setup UPnP NAT port mapping without IP address.");
         }
     }
 
@@ -62,11 +71,11 @@ public class UPnP {
     public static boolean getPortStatus(int port) {
         try {
             Socket socket = new Socket();
-            String ip = IPUtil.getExternalIPAddress();
-            socket.connect(new InetSocketAddress(InetAddress.getByName(ip), port), 200);
+            socket.connect(new InetSocketAddress("localhost", port), 200);
             socket.close();
             return true;
         } catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
     }

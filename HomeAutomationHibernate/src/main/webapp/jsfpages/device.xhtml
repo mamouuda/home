@@ -60,33 +60,29 @@
 
 
                         <h:form id="deviceForm">
-                            <h:panelGrid columns="3" columnClasses="verticalTop,verticalTop" >
+                            <h:panelGrid columns="2" columnClasses="verticalTop,verticalTop" >
 
                                 <p:outputLabel for="devicename" value="Device Name:" />
                                 <p:inputText id="devicename" value="#{deviceBean.device.name}" required="true" label="devicename" style="height: 150%; width: 150%;">
                                     <f:validateLength minimum="2" />
                                 </p:inputText>
-                                <p:message for="devicename" display="icon" />
 
 
                                 <p:outputLabel for="description" value="Device Description:" />
                                 <p:inputTextarea rows="6" cols="33"  id="description" value="#{deviceBean.device.description}" label="description" style=" width: 150%;">
                                     <f:validateLength minimum="2" />
                                 </p:inputTextarea>
-                                <p:message for="description" display="icon" />
 
 
                                 <p:outputLabel for="currentvalue" value="Current Value :"  />
                                 <p:spinner id="currentvalue" value="#{deviceBean.device.currentValue}" label="currentvalue" min="0" max="100">
                                 </p:spinner>
-                                <p:message for="currentvalue" display="icon" />
 
                                 <p:outputLabel for="devicetype" value="type : " />
                                 <p:selectOneMenu id="devicetype"  value="#{deviceBean.device.type}" style="width:150px" required="true" converter="typeConverter">
                                     <f:selectItem itemLabel="Select type" itemValue="" noSelectionOption="true" />
                                     <f:selectItems var ="t" value="#{deviceBean.typesList}"/>
                                 </p:selectOneMenu>
-                                <p:message for="room" display="icon" />
 
                                 <p:outputLabel for="room" value="Room : " />
                                 <p:selectOneMenu id="room"  value="#{deviceBean.device.room}" style="width:150px" required="true" converter="roomConverter">
@@ -94,7 +90,6 @@
                                     <f:selectItems var ="r" value="#{deviceBean.roomList}"
                                                    itemLabel="#{r.name}" itemValue="#{r}"/>
                                 </p:selectOneMenu>
-                                <p:message for="room" display="icon" />
                                 
                                 
                                 <p:outputLabel for="category" value="Category : " />
@@ -103,10 +98,9 @@
                                     <f:selectItems var ="c" value="#{deviceBean.catgeoryList}"
                                                    itemLabel="#{c.name}" itemValue="#{c}"/>
                                 </p:selectOneMenu>
-                                <p:message for="category" display="icon" />
 
 
-                                <p:commandButton value="add" update="deviceForm, a:DeviceTab" actionListener="#{deviceBean.addDevice()}" icon="ui-icon-check" />
+                                <p:commandButton value="add" update="deviceForm, a:DeviceTab a:growl" actionListener="#{deviceBean.addDevice()}" icon="ui-icon-check" />
                                 <p:messages id="msgs" />
 
                             </h:panelGrid>
@@ -125,7 +119,7 @@
                                     <h:outputText value="#{device.id}" />
                                 </p:column>
                                 
-                                <p:column headerText="Nom" id="deviceName" filterBy="#{device.name}" filterMatchMode="contains" sortBy="#{device.name}" >
+                                <p:column headerText="Name" id="deviceName" filterBy="#{device.name}" filterMatchMode="contains" sortBy="#{device.name}" >
                                     <h:outputText value="#{device.name}" />
                                 </p:column>
                                 
@@ -158,7 +152,7 @@
                                 
                                 
                                 <p:column style="width:5%">
-                                    <p:commandButton id="Supprimer"  update=":a:DeviceTab" icon="ui-icon-trash" actionListener="#{deviceBean.deleteDevice(device)}"  title="Supprime">
+                                    <p:commandButton id="Supprimer"  update=":a:DeviceTab a:growl" icon="ui-icon-trash" actionListener="#{deviceBean.deleteDevice(device)}"  title="Supprime">
                                     </p:commandButton>
                                 </p:column>
                                 
@@ -179,7 +173,7 @@
                                 <h:outputText value="Description :"></h:outputText>
                                 <h:inputText value="#{deviceBean.deviceForUpdate.description}" required="true"/>
                                 
-                                <h:outputLabel for="current" value="urrent Value: " />
+                                <h:outputLabel for="current" value="Current Value: " />
                                 <p:spinner id="current" value="#{deviceBean.deviceForUpdate.currentValue}" min="0" max="100" />
 
                                 <p:outputLabel for="devicetypeup" value="type : " />
@@ -204,7 +198,7 @@
                                 </p:selectOneMenu>
 
                                 <f:facet name="footer">
-                                    <p:commandButton value="Update" update=":a:DeviceTab"  actionListener="#{deviceBean.updateDevice()}"/>
+                                    <p:commandButton value="Update" update=":a:DeviceTab a:growl"  actionListener="#{deviceBean.updateDevice()}"/>
                                 </f:facet>
                             </h:panelGrid> 
                         </h:form>

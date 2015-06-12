@@ -9,6 +9,9 @@ package utils;
  *
  * @author mouadh
  */
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
   
@@ -35,5 +38,7 @@ public class HibernateUtil {
         // Close caches and connection pools
         getSessionFactory().close();
     }
+    
+
   
 }

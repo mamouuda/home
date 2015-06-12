@@ -59,15 +59,13 @@
 
 
                         <h:form id="roomForm">
-                            <h:panelGrid columns="3" cellpadding="10" cellspacing="10" columnClasses="verticalTop,verticalTop" >
+                            <h:panelGrid columns="2" cellpadding="10" cellspacing="10" columnClasses="verticalTop,verticalTop" >
                                 
                                 <p:outputLabel for="roomname" value="Room Name:"  styleClass="vertAlign" />
                                 <p:inputText id="roomname" value="#{roomBean.room.name}" required="true" label="roomname" style="height: 150%; width: 150%;">
                                     <f:validateLength minimum="2" />
                                 </p:inputText>
-                                <p:message for="roomname" display="icon" />
 
-                                <p:spacer height="20"/>
                                 <p:spacer height="20"/>
                                 <p:spacer height="20"/>
                                 
@@ -75,9 +73,8 @@
                                 <p:inputTextarea rows="6" cols="33"  id="description" value="#{roomBean.room.description}" label="roomdescription" style=" width: 150%;">
                                     <f:validateLength minimum="2" />
                                 </p:inputTextarea>
-                                <p:message for="description"  display="icon" />
                                 
-                                <p:commandButton value="add" update="roomForm, a:RoomTab" actionListener="#{roomBean.addRoom()}" icon="ui-icon-check" />
+                                <p:commandButton value="add" update="roomForm, a:RoomTab a:growl" actionListener="#{roomBean.addRoom()}" icon="ui-icon-check" />
                                 <p:messages id="msgs" />
 
                             </h:panelGrid>
@@ -96,7 +93,7 @@
                                     <h:outputText value="#{room.id}" />
                                 </p:column>
                                 
-                                <p:column headerText="Nom" id="roomName" filterBy="#{room.name}" filterMatchMode="contains" sortBy="#{room.name}" >
+                                <p:column headerText="Name" id="roomName" filterBy="#{room.name}" filterMatchMode="contains" sortBy="#{room.name}" >
                                     <h:outputText value="#{room.name}" />
                                 </p:column>
                                 
@@ -113,7 +110,7 @@
                                 
                                 
                                 <p:column style="width:5%">
-                                    <p:commandButton id="Supprimer"  update=":a:RoomTab" icon="ui-icon-trash" actionListener="#{roomBean.deleteRoom(room)}"  title="Supprime">
+                                    <p:commandButton id="Supprimer"  update="a:RoomTab a:growl" icon="ui-icon-trash" actionListener="#{roomBean.deleteRoom(room)}"  title="Supprime">
                                     </p:commandButton>
                                 </p:column>
                                 
@@ -147,7 +144,7 @@
 
 
                                 <f:facet name="footer">
-                                    <p:commandButton value="Update" update=":a:RoomTab"  actionListener="#{roomBean.updateRoom}"/>
+                                    <p:commandButton value="Update" update=":a:RoomTab a:growl"  actionListener="#{roomBean.updateRoom}"/>
                                 </f:facet>
                             </h:panelGrid> 
                         </h:form>

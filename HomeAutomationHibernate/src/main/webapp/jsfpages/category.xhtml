@@ -59,15 +59,13 @@
 
 
                         <h:form id="categoryForm">
-                            <h:panelGrid columns="3" cellpadding="10" cellspacing="10" columnClasses="verticalTop,verticalTop" >
+                            <h:panelGrid columns="2" cellpadding="10" cellspacing="10" columnClasses="verticalTop,verticalTop" >
                                 
                                 <p:outputLabel for="categoryname" value="Category Name:"  styleClass="vertAlign" />
                                 <p:inputText id="categoryname" value="#{categoryBean.cat.name}" required="true" label="categoryname" style=" height: 150%; width: 150%;">
                                     <f:validateLength minimum="2" />
                                 </p:inputText>
-                                <p:message for="categoryname" display="icon" />
 
-                                <p:spacer height="20"/>
                                 <p:spacer height="20"/>
                                 <p:spacer height="20"/>
                                 
@@ -75,9 +73,8 @@
                                 <p:inputTextarea rows="6" cols="33"  id="description" value="#{categoryBean.cat.description}" label="Lastname" required="true" style="width: 150%;">
                                     <f:validateLength minimum="2" />
                                 </p:inputTextarea>
-                                <p:message for="description" id="msgLastname" display="icon" />
                                 
-                                <p:commandButton value="add" update="categoryForm, a:CatgoryTab" actionListener="#{categoryBean.addCategory()}" icon="ui-icon-check" />
+                                <p:commandButton value="add" update="categoryForm, a:CatgoryTab a:growl" actionListener="#{categoryBean.addCategory()}" icon="ui-icon-check" />
                                 <p:messages id="msgs" />
 
                             </h:panelGrid>
@@ -96,7 +93,7 @@
                                     <h:outputText value="#{category.id}" />
                                 </p:column>
                                 
-                                <p:column headerText="Nom" id="categoryName" filterBy="#{category.name}" filterMatchMode="contains" sortBy="#{category.name}" >
+                                <p:column headerText="Name" id="categoryName" filterBy="#{category.name}" filterMatchMode="contains" sortBy="#{category.name}" >
                                     <h:outputText value="#{category.name}" />
                                 </p:column>
                                 
@@ -106,14 +103,14 @@
 
 
                                 <p:column style="width:5%">
-                                    <p:commandButton update=":userDetailForm:display" oncomplete="PF('catDialog').show();"  title="Editer" icon="ui-icon-arrowrefresh-1-w">
+                                    <p:commandButton update=":userDetailForm:display " oncomplete="PF('catDialog').show();"  title="Editer" icon="ui-icon-arrowrefresh-1-w">
                                         <f:setPropertyActionListener value="#{category}" target="#{categoryBean.category}" />    
                                     </p:commandButton>
                                 </p:column>
                                 
                                 
                                 <p:column style="width:5%">
-                                    <p:commandButton id="Supprimer"  update=":a:CatgoryTab" icon="ui-icon-trash" actionListener="#{categoryBean.deleteCategory(category)}"  title="Supprime">
+                                    <p:commandButton id="Supprimer"  update=":a:CatgoryTab a:growl" icon="ui-icon-trash" actionListener="#{categoryBean.deleteCategory(category)}"  title="Supprime">
                                     </p:commandButton>
                                 </p:column>
                                 
@@ -147,7 +144,7 @@
 
 
                                 <f:facet name="footer">
-                                    <p:commandButton value="Update" update=":a:CatgoryTab"  actionListener="#{categoryBean.updateCategory}"/>
+                                    <p:commandButton value="Update" update=":a:CatgoryTab a:growl"  actionListener="#{categoryBean.updateCategory}"/>
                                 </f:facet>
                             </h:panelGrid> 
                         </h:form>

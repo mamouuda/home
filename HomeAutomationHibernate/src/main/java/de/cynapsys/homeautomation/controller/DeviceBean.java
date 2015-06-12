@@ -17,8 +17,12 @@ import de.cynapsys.homeautomation.serviceImpl.DeviceServiceImpl;
 import de.cynapsys.homeautomation.serviceImpl.RoomServiceImpl;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -43,6 +47,8 @@ public class DeviceBean {
     CategoryService categoryService = new CategoryServiceImpl();
     RoomService roomService = new RoomServiceImpl();
     
+    
+    
     @PostConstruct
     public void init(){
         deviceList=deviceService.getAllDevices();
@@ -56,21 +62,42 @@ public class DeviceBean {
     }
     
     public void addDevice(){
-        System.out.println("i am add device method");
-        deviceService.addDevice(device);
-        deviceList=deviceService.getAllDevices();
+        try {
+            System.out.println("i am add device method");
+            deviceService.addDevice(device);
+            deviceList = deviceService.getAllDevices();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "périphérique ajouté avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans l'ajout"+e.toString()));
+        }
     }
     
     public void updateDevice(){
-        deviceService.updateDevice(deviceForUpdate);
-        deviceList=deviceService.getAllDevices();
+        try {
+            deviceService.updateDevice(deviceForUpdate);
+            deviceList = deviceService.getAllDevices();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "périphérique modifié avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans la modification"+e.toString()));
+        }
     }
     
     public void deleteDevice(Device d) {
-        System.out.println(" i am a function delete category");
-        System.out.println(d);
-        deviceService.deleteDevice(d.getId());
-        deviceList = deviceService.getAllDevices();
+        try {
+            System.out.println(" i am a function delete category");
+            System.out.println(d);
+            deviceService.deleteDevice(d.getId());
+            deviceList = deviceService.getAllDevices();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "périphérique supprimé avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans la supprission"+e.toString()));
+        }
 
     }
 

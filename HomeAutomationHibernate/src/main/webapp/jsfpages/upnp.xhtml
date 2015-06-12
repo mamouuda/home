@@ -46,31 +46,34 @@
                     <img id="logo" src="http://www.universitesesame.com/wp-content/uploads/2014/12/Logo_Cynapsys.png"/>
                 </nav>
                 <div id="content"> 
-<p:panel id="panel" header="UPnP Coniguration" style="width: 90%; margin-left: 3%; margin-top: 5%;" >
-                    <h:panelGrid columns="1" >
-                        <h:form style="margin-top: 10px;">
+                    <p:panel id="panel" header="UPnP Coniguration" style="width: 90%; margin-left: 3%; margin-top: 5%;" >
+                        <h:panelGrid columns="1" >
+                            <p:growl id="growl" showDetail="true" life="5000"/>
+                            <h:form style="margin-top: 10px;" id="upnpForm">
+                                
+                                
+                                <ui:repeat value="#{upnpBean.values}" 
+                                           var="value">
+                                    <h:panelGrid columns="3">
+                                        <p:spinner min="0" max="65535" value="#{value.port}" required="true"/>
 
-                            <ui:repeat value="#{upnpBean.values}" 
-                                       var="value">
-                                <h:panelGrid columns="3">
-                                    <p:spinner min="0" max="65535" value="#{value.port}" required="true"/>
+                                        <p:commandButton action="#{upnpBean.submit(value.port)}" 
+                                                         value="open port" update="growl"/>
+                                        <h:outputLabel value="#{upnpBean.portStatus(value.port)}" 
+                                                       style="#{upnpBean.test(upnpBean.portStatus(value.port))? 'color: green;' : 'color: red;'} font-size: medium; padding-left: 10px;"/>
+                                    </h:panelGrid> 
 
-                                    <p:commandButton action="#{upnpBean.submit(value.port)}" 
-                                                     value="open port" />
-                                    <h:outputLabel value="#{upnpBean.portStatus(value.port)}" style="color: black"/>
-                                </h:panelGrid> 
-
-                            </ui:repeat>
+                                </ui:repeat>
 
 
-                            <p:commandButton value="add port" style="margin-top: 10px;">
-                                <f:ajax listener="#{upnpBean.extend}"
-                                        render="@form" />
-                            </p:commandButton>
+                                <p:commandButton value="add port" style="margin-top: 10px;" update="upnpForm">
+                                    <f:ajax listener="#{upnpBean.extend}"
+                                            render="@form" />
+                                </p:commandButton>
 
-                        </h:form>
-                    </h:panelGrid>
-</p:panel>
+                            </h:form>
+                        </h:panelGrid>
+                    </p:panel>
 
                 </div>
             </div>

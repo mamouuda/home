@@ -12,8 +12,12 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -29,6 +33,7 @@ public class CategoryBean implements Serializable {
     Category categoryForDevices;
     CategoryService categoryService = new CategoryServiceImpl();
     String id;
+    
 
     @PostConstruct
     public void init() {
@@ -40,22 +45,43 @@ public class CategoryBean implements Serializable {
     }
 
     public void addCategory() {
-        System.out.println("test add category");
-        categoryService.addCategory(cat);
-        categoryList = categoryService.getAllCategories();
+        try {
+            System.out.println("test add category");
+            categoryService.addCategory(cat);
+            categoryList = categoryService.getAllCategories();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Catégorie ajoutée avec succés")); 
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans l'ajout"+e.toString()));
+        }
     }
 
     public void deleteCategory(Category c) {
-        System.out.println(" i am a function delete category");
-        System.out.println(c);
-        categoryService.deleteCategory(c.getId());
-        categoryList = categoryService.getAllCategories();
+        try {
+            System.out.println(" i am a function delete category");
+            System.out.println(c);
+            categoryService.deleteCategory(c.getId());
+            categoryList = categoryService.getAllCategories();
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Catégorie supprimée avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans la supprission"+e.toString()));
+        }
 
     }
 
     public void updateCategory() {
-        System.out.println("i am update category" +category);
-        categoryService.updateCategory(category);
+        try {
+            System.out.println("i am update category" + category);
+            categoryService.updateCategory(category);
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful", "Catégorie modifiée avec succés"));
+        } catch (Exception e) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Error", "erreur dans la modification"+e.toString()));
+        }
     }
 
     public List<Category> getCategoryList() {

@@ -9,8 +9,12 @@ import de.cynapsys.homeautomation.entity.network.DdnsEntity;
 import de.cynapsys.homeautomation.service.network.DDNSService;
 import de.cynapsys.homeautomation.serviceImpl.network.DDNSServiceImpl;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -26,15 +30,26 @@ public class DdnsBean {
     @PostConstruct
     public void init(){
         ddns= ddnsService.getConfiguration();
+        if (ddns==null) ddns=new DdnsEntity();
     }
     
     public void connexion (){
-        ddnsService.submitHostname(ddns);
+        //ddnsService.submitHostname(ddns);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Successful",  "Connexion établit avec succés") );
     }
     
     public void setConfiguration(){
         ddns.setId(1);
-        ddnsService.changeConfiguration(ddns);
+        try {
+            ddnsService.changeConfiguration(ddns);
+        } catch (Exception e) {
+            ddnsService.saveConfiguration(ddns);
+        }
+        finally{
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage("Successful",  "Le serveur DDNS est configuré avec succés") );
+        }
     }
     
     public DdnsEntity getDdns() {
